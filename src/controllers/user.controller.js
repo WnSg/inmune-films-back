@@ -29,26 +29,30 @@ export class UserController extends Controller {
         key: 'userName',
         value: req.body.user,
       });
+      console.log('Datos del usuario por userName:', data);
       if (!data.length) {
         data = await this.repo.search({
           key: 'email',
           value: req.body.user,
         });
       }
-
+      console.log('Datos del usuario por email:', data);
       if (!data.length)
         throw new HttpError(400, 'Bad Request', 'Invalid user or password');
       const isUserValid = await AuthServices.compare(
         req.body.password,
         data[0].password
-      );
+      );  
+      console.log('Contraseña válida:', isUserValid);    
       if (!isUserValid)
         throw new HttpError(400, 'Bad Request', 'Invalid user or password');
       const payload = {
         id: data[0].id,
         userName: data[0].userName,
       };
+
       const token = AuthServices.createJWT(payload);
+      console.log('Token generado:', token);
       const response = {
         token,
         user: data[0],

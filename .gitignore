@@ -1,7 +1,7 @@
 # Ficheros de test
 
 *.spec.js
-*.test.js
+
 
 # Dependency directories
 node_modules
