@@ -8,6 +8,11 @@ let token; // Para almacenar el token de autenticación
 jest.setTimeout(15000); // 15 segundos
 
 beforeAll(async () => {
+    const serverResponse = await request(app).get('/');
+    if (serverResponse.status !== 200) {
+        throw new Error('El servidor no está corriendo o no está accesible.');
+    }
+
     // Conectamos la base de datos mockeada
     await dbConnect();
 
